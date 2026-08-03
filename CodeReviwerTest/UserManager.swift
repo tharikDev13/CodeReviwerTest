@@ -5,34 +5,37 @@
 //  Created by Tharik anver  on 03/08/26.
 //
 
-import SwiftUI
+import Foundation
 
-struct ProfileView1: View {
+class UserManager {
 
-    @State var count = 0
+    static let shared = UserManager()
 
-    var body: some View {
+    var users: [String] = []
 
-        VStack {
+    func loadUsers() {
 
-            ForEach(0..<1000) { i in
+        let url = URL(string: "https://jsonplaceholder.typicode.com/users")!
 
-                VStack {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
 
-                    Text("User \(i)")
-                        .font(.headline)
-
-                    Text("Description")
-
-                    Button("Tap") {
-                        count += 1
-                        print(count)
-                    }
-                }
-                .padding()
-                .background(Color.blue)
-                .cornerRadius(10)
+            if error != nil {
+                print(error!)
             }
+
+            let json = try! JSONSerialization.jsonObject(with: data!) as! [[String: Any]]
+
+            for item in json {
+                self.users.append(item["name"] as! String)
+            }
+
+            print(self.users)
         }
+
+        task.resume()
+    }
+
+    func getUser(index: Int) -> String {
+        return users[index]
     }
 }
