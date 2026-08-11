@@ -1,41 +1,43 @@
 //
-//  Usermanagertwo.swift
+//  UserManagerTwo.swift
 //  CodeReviwerTest
 //
-//  Created by Tharik anver  on 03/08/26.
+//  Created by Tharik anver  on 11/08/26.
 //
 
 import Foundation
 
-class UserManager2 {
+final class UserManager2 {
 
-    static let shared = UserManager()
-
+    var userName: String?
     var users: [String] = []
 
-    func loadUsers() {
-
-        let url = URL(string: "https://jsonplaceholder.typicode.com/users")!
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-
-            if error != nil {
-                print(error!)
-            }
-
-            let json = try! JSONSerialization.jsonObject(with: data!) as! [[String: Any]]
-
-            for item in json {
-                self.users.append(item["name"] as! String)
-            }
-
-            print(self.users)
-        }
-
-        task.resume()
+    func getUserName() -> String {
+        return userName!
     }
 
-    func getUser(index: Int) -> String {
-        return users[index]
+    func findUser(id: String) -> String? {
+
+        for user in users {
+            if user == id {
+                return user
+            }
+        }
+
+        return nil
+    }
+
+    func loadUser() {
+        DispatchQueue.global().async {
+            self.updateUI()
+        }
+    }
+
+    private func updateUI() {
+        print("Updating UI")
+    }
+
+    func saveUser(name: String) {
+        UserDefaults.standard.set(name, forKey: "username")
     }
 }
