@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class UserManager2 {
+final class UserManagerTwo {
 
     var userName: String?
     var users: [String] = []
