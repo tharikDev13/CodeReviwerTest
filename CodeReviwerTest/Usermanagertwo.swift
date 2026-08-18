@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Manages the current user's name and saved preferences.
+/// Instances retain an in-memory list of user identifiers.
 final class UserManagerTwo {
 
     var userName: String?
